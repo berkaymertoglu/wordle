@@ -90,7 +90,15 @@ public class GameService {
         gameRepository.save(game);
 
         // 9. Sonucu döndür
-        return new GuessResult(guess, letterResults, isCorrect, game.getAttemptsLeft(), gameOver);
+        return new GuessResult(
+                guess,
+                letterResults,
+                isCorrect,
+                game.getAttemptsLeft(),
+                gameOver,
+                gameOver ? game.getTargetWord() : null // 👈 Oyun bittiyse doğru kelimeyi göster
+        );
+
     }
 
     /**

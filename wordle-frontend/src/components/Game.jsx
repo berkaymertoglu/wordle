@@ -13,6 +13,7 @@ const Game = () => {
   const [message, setMessage] = useState('');
   const [usedLetters, setUsedLetters] = useState({});
   const [attemptsLeft, setAttemptsLeft] = useState(6);
+  const [correctWord, setCorrectWord] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -79,6 +80,10 @@ const Game = () => {
         setGuesses([...guesses, currentGuess]);
         setResults([...results, result.letterResults]);
         setAttemptsLeft(result.attemptsLeft);
+
+        if (result.correctWord) {
+            setCorrectWord(result.correctWord);
+        }
         
         // Kullanılan harfleri güncelle
         const newUsedLetters = { ...usedLetters };
@@ -168,6 +173,28 @@ const Game = () => {
       <Board guesses={displayGuesses} results={results} />
       
       <Keyboard onKeyPress={handleKeyPress} usedLetters={usedLetters} />
+
+      {gameOver && !won && correctWord && (
+        <div style={{ 
+          marginTop: '20px', 
+          padding: '20px',
+          backgroundColor: '#f8d7da',
+          color: '#721c24',
+          borderRadius: '8px',
+          fontSize: '20px',
+          fontWeight: 'bold',
+          border: '2px solid #f5c6cb',
+          boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+        }}>
+          😢 Doğru kelime: <span style={{ 
+            color: '#155724', 
+            backgroundColor: '#d4edda',
+            padding: '5px 15px',
+            borderRadius: '5px',
+            fontSize: '24px'
+          }}>{correctWord}</span>
+        </div>
+      )}
       
       {gameOver && (
         <button

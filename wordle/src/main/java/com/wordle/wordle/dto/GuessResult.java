@@ -18,4 +18,6 @@ public class GuessResult {
     private int attemptsLeft;
 
     private boolean gameOver;
+
+    private String correctWord;
 }
