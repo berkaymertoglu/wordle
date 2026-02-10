@@ -1,39 +1,385 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #121213;
+  color: #ffffff;
   margin: 0;
   padding: 0;
 }
 
-body {
-  margin: 0;
-  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-}
-
 .App {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Header - Daha İyi Görünüm */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  height: 60px;
+  border-bottom: 1px solid #3a3a3c;
+  background-color: #121213;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  gap: 4px;
+  width: 80px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.icon-button:hover {
+  background-color: #3a3a3c;
+}
+
+.header-title {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-align: center;
+  flex: 1;
+}
+
+/* Game Container */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  padding: 8px;
+  overflow: hidden;
+}
+
+/* Board */
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 0;
+  align-items: center;
+}
+
+.board-row {
+  display: flex;
+  gap: 5px;
+}
+
+.tile {
+  width: 62px;
+  height: 62px;
+  border: 2px solid #3a3a3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: #121213;
+  transition: all 0.2s ease;
+}
+
+.tile.filled {
+  border-color: #565758;
+  animation: pop 0.1s ease;
+}
+
+.tile.correct {
+  background-color: #538d4e;
+  border-color: #538d4e;
+  animation: flip 0.5s ease;
+}
+
+.tile.present {
+  background-color: #b59f3b;
+  border-color: #b59f3b;
+  animation: flip 0.5s ease;
+}
+
+.tile.absent {
+  background-color: #3a3a3c;
+  border-color: #3a3a3c;
+  animation: flip 0.5s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes flip {
+  0% { transform: rotateX(0); }
+  50% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0); }
+}
+
+/* Keyboard - Responsive ve Daha Küçük */
+.keyboard {
+  padding: 0 8px 8px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.keyboard-row:nth-child(2) {
+  padding: 0 15px;
+}
+
+.key {
+  min-width: 0;
+  flex: 1;
+  max-width: 43px;
+  height: 58px;
+  border: none;
+  border-radius: 4px;
+  background-color: #818384;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+  padding: 0;
+}
+
+.key:hover {
+  opacity: 0.8;
+}
+
+.key.large {
+  flex: 1.5;
+  max-width: 65px;
+  font-size: 12px;
+}
+
+.key.correct {
+  background-color: #538d4e;
+}
+
+.key.present {
+  background-color: #b59f3b;
+}
+
+.key.absent {
+  background-color: #3a3a3c;
+}
+
+/* Message */
+.message {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  color: #000000;
+  padding: 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  z-index: 1000;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.message.success {
+  background-color: #538d4e;
+  color: #ffffff;
+}
+
+.message.error {
+  background-color: #3a3a3c;
+  color: #ffffff;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal {
+  background-color: #121213;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-content {
+  line-height: 1.6;
+}
+
+/* Result Box */
+.result-box {
+  margin: 20px 0;
   padding: 20px;
+  background-color: #3a3a3c;
+  border-radius: 8px;
+  text-align: center;
 }
 
-/* Animasyonlar */
-@keyframes flipIn {
-  0% {
-    transform: rotateX(0);
+.result-box.win {
+  background-color: #538d4e;
+}
+
+.result-box.lose {
+  background-color: #b59f3b;
+}
+
+.correct-word {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 10px 0;
+  letter-spacing: 0.1em;
+}
+
+/* New Game Button */
+.new-game-button {
+  width: 100%;
+  padding: 16px;
+  margin-top: 16px;
+  background-color: #538d4e;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.new-game-button:hover {
+  background-color: #6aaa64;
+}
+
+.new-game-button:disabled {
+  background-color: #3a3a3c;
+  cursor: not-allowed;
+}
+
+/* Responsive - Küçük Ekranlar */
+@media (max-width: 500px) {
+  .App {
+    max-width: 100%;
   }
-  100% {
-    transform: rotateX(360deg);
+
+  .header-title {
+    font-size: 28px;
+  }
+
+  .key {
+    max-width: 36px;
+    height: 52px;
+    font-size: 12px;
+  }
+
+  .key.large {
+    max-width: 55px;
+    font-size: 10px;
+  }
+
+  .tile {
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
   }
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-  20%, 40%, 60%, 80% { transform: translateX(5px); }
+@media (max-width: 400px) {
+  .key {
+    max-width: 32px;
+    height: 48px;
+    font-size: 11px;
+  }
+
+  .key.large {
+    max-width: 48px;
+  }
+
+  .tile {
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
+  }
+
+  .keyboard-row {
+    gap: 3px;
+  }
 }
